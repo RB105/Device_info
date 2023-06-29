@@ -17,9 +17,15 @@ import Flutter
       switch call.method {
       case "getIMEI":
         result("Not available on iOS")
-      case "getSerialNumber":
+      case "getSerialNumber":a
         result(self.getSerialNumber())
       default:
+        result(FlutterMethodNotImplemented)
+      }
+      if (call.method == "getIOSModelName") {
+        let modelName = UIDevice.current.modelName
+        result(modelName)
+      } else {
         result(FlutterMethodNotImplemented)
       }
     })
@@ -30,5 +36,19 @@ import Flutter
 
   private func getSerialNumber() -> String {
     return UIDevice.current.identifierForVendor!.uuidString
+  }
+}
+
+extension UIDevice {
+  var modelName: String {
+    var systemInfo = utsname()
+    uname(&systemInfo)
+    let machineMirror = Mirror(reflecting: systemInfo.machine)
+    let identifier = machineMirror.children.reduce("") { identifier, element in
+      guard let value = element.value as? Int8, value != 0 else { return identifier }
+      return identifier + String(UnicodeScalar(UInt8(value)))
+    }
+
+    return identifier
   }
 }

@@ -27,4 +27,16 @@ class DeviceInfoService {
     debugPrint(imei);
     return imei;
   }
+
+  static Future<String> getModelName() async {
+    const MethodChannel mathodChannel = MethodChannel('device_info');
+    String modelName = "";
+    if (Platform.isAndroid) {
+      modelName = await mathodChannel.invokeMethod('getAndoidModelName');
+    } else if (Platform.isIOS) {
+      modelName = await mathodChannel.invokeMethod('getIOSModelName');
+    }
+    print(modelName);
+    return modelName;
+  }
 }

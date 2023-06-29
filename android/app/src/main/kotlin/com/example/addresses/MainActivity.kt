@@ -6,6 +6,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import android.content.Context
 import android.provider.Settings
+import android.os.Build
 
 class MainActivity: FlutterActivity() {
     private val CHANNEL = "device_info"
@@ -22,6 +23,9 @@ class MainActivity: FlutterActivity() {
                 }
             } else if (call.method == "getSerialNumber") {
                 result.success("Not available on Android")
+            } else if (call.method == "getAndoidModelName") {
+                val modelName = Build.MODEL
+                result.success(modelName)
             } else {
                 result.notImplemented()
             }
