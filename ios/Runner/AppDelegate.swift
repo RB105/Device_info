@@ -22,10 +22,16 @@ import Flutter
       default:
         result(FlutterMethodNotImplemented)
       }
+      // get model name
       if (call.method == "getIOSModelName") {
         let modelName = UIDevice.current.modelName
         result(modelName)
-      } else {
+      }
+       // app version
+       else if(call.method == "getIOSAppVersion") {
+        result(self.getAppVersion())
+      }
+       else {
         result(FlutterMethodNotImplemented)
       }
     })
@@ -37,6 +43,11 @@ import Flutter
   private func getSerialNumber() -> String {
     return UIDevice.current.identifierForVendor!.uuidString
   }
+
+  private func getAppVersion() -> String {
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        return version ?? "Unknown"
+    }
 }
 
 extension UIDevice {

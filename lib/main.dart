@@ -118,6 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          DeviceInfoService().getAppVersion();
           await DeviceInfoService.getModelName();
           await DeviceInfoService.printIps();
           _incrementCounter();

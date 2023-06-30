@@ -26,6 +26,8 @@ class MainActivity: FlutterActivity() {
             } else if (call.method == "getAndoidModelName") {
                 val modelName = Build.MODEL
                 result.success(modelName)
+            } else if (call.method == "getAndroidAppVersion") {
+                result.success(getAppVersion())
             } else {
                 result.notImplemented()
             }
@@ -34,5 +36,9 @@ class MainActivity: FlutterActivity() {
 
     private fun getIMEI(): String? {
         return Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+    }
+    private fun getAppVersion(): String {
+        val packageInfo = applicationContext.packageManager.getPackageInfo(applicationContext.packageName, 0)
+        return packageInfo.versionName
     }
 }
